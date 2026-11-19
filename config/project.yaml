@@ -1,0 +1,24 @@
+project:
+  name: WR-MovementIQ
+  random_seed: 20261118
+
+paths:
+  raw: data/raw
+  processed: data/processed
+  features: data/features
+  audit: reports/data_audit
+
+files:
+  combine_tracking: combine_tracking.csv
+  combine_results: combine_results.csv
+  player_play: player_play.csv
+  players: players.csv
+  games: games.csv
+  game_tracking:
+    - game_tracking_2023.csv
+    - game_tracking_2024.csv
+    - game_tracking_2025.csv
+
+features:
+  minimum_speed_for_turning: 1.0
+  minimum_observations_per_attempt: 5

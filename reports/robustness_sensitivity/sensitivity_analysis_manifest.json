@@ -1,0 +1,110 @@
+{
+  "notebook": "10_robustness_sensitivity_analysis.ipynb",
+  "dataset": "data\\features\\wr_analysis_dataset_core_common.parquet",
+  "dataset_sha256": "02fbd802522973f7c4d100da57cd680f7bbfde6346a0431a7aa1fe5e25807c5c",
+  "rows": 93,
+  "receivers": 54,
+  "outer_folds": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "outcomes": [
+    "game_mean_speed_raw_median",
+    "game_peak_speed_raw_median",
+    "game_p95_speed_raw_median",
+    "game_mean_acceleration_raw_median",
+    "game_peak_acceleration_raw_median",
+    "game_path_efficiency_median"
+  ],
+  "model_specifications": {
+    "BASELINE": [],
+    "TRADITIONAL": [
+      "forty",
+      "vertical",
+      "broad_jump"
+    ],
+    "TRACKING_FULL": [
+      "combine_mean_speed_median_across_drills",
+      "combine_peak_speed_median_across_drills",
+      "combine_p95_speed_median_across_drills",
+      "combine_mean_acceleration_median_across_drills",
+      "combine_peak_acceleration_median_across_drills",
+      "combine_path_efficiency_median_across_drills"
+    ],
+    "COMBINED_FULL": [
+      "forty",
+      "vertical",
+      "broad_jump",
+      "combine_mean_speed_median_across_drills",
+      "combine_peak_speed_median_across_drills",
+      "combine_p95_speed_median_across_drills",
+      "combine_mean_acceleration_median_across_drills",
+      "combine_peak_acceleration_median_across_drills",
+      "combine_path_efficiency_median_across_drills"
+    ],
+    "COMBINED_NO_PEAK_SPEED": [
+      "forty",
+      "vertical",
+      "broad_jump",
+      "combine_mean_speed_median_across_drills",
+      "combine_p95_speed_median_across_drills",
+      "combine_mean_acceleration_median_across_drills",
+      "combine_peak_acceleration_median_across_drills",
+      "combine_path_efficiency_median_across_drills"
+    ],
+    "COMBINED_NO_P95_SPEED": [
+      "forty",
+      "vertical",
+      "broad_jump",
+      "combine_mean_speed_median_across_drills",
+      "combine_peak_speed_median_across_drills",
+      "combine_mean_acceleration_median_across_drills",
+      "combine_peak_acceleration_median_across_drills",
+      "combine_path_efficiency_median_across_drills"
+    ],
+    "COMBINED_PEAK_SPEED_ONLY": [
+      "forty",
+      "vertical",
+      "broad_jump",
+      "combine_peak_speed_median_across_drills"
+    ],
+    "COMBINED_P95_SPEED_ONLY": [
+      "forty",
+      "vertical",
+      "broad_jump",
+      "combine_p95_speed_median_across_drills"
+    ],
+    "COMBINED_NO_ACCELERATION": [
+      "forty",
+      "vertical",
+      "broad_jump",
+      "combine_mean_speed_median_across_drills",
+      "combine_peak_speed_median_across_drills",
+      "combine_p95_speed_median_across_drills",
+      "combine_path_efficiency_median_across_drills"
+    ],
+    "TRACKING_SPEED_ONLY": [
+      "combine_mean_speed_median_across_drills",
+      "combine_peak_speed_median_across_drills",
+      "combine_p95_speed_median_across_drills"
+    ]
+  },
+  "alpha_grid": [
+    0.001,
+    0.01,
+    0.1,
+    1,
+    10,
+    100,
+    1000,
+    10000,
+    100000
+  ],
+  "bootstrap_reps": 5000,
+  "bootstrap_unit": "receiver, stratified by outer fold",
+  "primary_estimand": "equal-fold receiver-level MAE difference vs median baseline",
+  "missing_outputs": []
+}

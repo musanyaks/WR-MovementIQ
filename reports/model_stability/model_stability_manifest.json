@@ -1,0 +1,42 @@
+{
+  "notebook": "08A_model_stability_signal_and_shrinkage_diagnostics",
+  "dataset": "data\\features\\wr_analysis_dataset_core_common.parquet",
+  "dataset_sha256": "02fbd802522973f7c4d100da57cd680f7bbfde6346a0431a7aa1fe5e25807c5c",
+  "rows": 93,
+  "unique_receivers": 54,
+  "oof_rows": 2232,
+  "outcomes": [
+    "game_mean_speed_raw_median",
+    "game_peak_speed_raw_median",
+    "game_p95_speed_raw_median",
+    "game_mean_acceleration_raw_median",
+    "game_peak_acceleration_raw_median",
+    "game_path_efficiency_median"
+  ],
+  "predictors": [
+    "forty",
+    "vertical",
+    "broad_jump",
+    "combine_mean_speed_median_across_drills",
+    "combine_peak_speed_median_across_drills",
+    "combine_p95_speed_median_across_drills",
+    "combine_mean_acceleration_median_across_drills",
+    "combine_peak_acceleration_median_across_drills",
+    "combine_path_efficiency_median_across_drills"
+  ],
+  "source_modeling_manifest": "reports\\nested_ridge_modeling\\modeling_manifest.json",
+  "diagnostic_scope": [
+    "predictor_distributions",
+    "predictor_correlations",
+    "outcome_variation",
+    "oof_coverage",
+    "paired_sample_audit",
+    "prediction_calibration_and_shrinkage",
+    "residual_diagnostics",
+    "receiver_error_concentration",
+    "alpha_selection",
+    "LOCO_review"
+  ],
+  "does_not_refit_primary_models": true,
+  "does_not_overwrite_nested_ridge_outputs": true
+}

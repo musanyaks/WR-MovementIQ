@@ -1,0 +1,5 @@
+step,rows_before,rows_after,rows_removed
+Merged game seasons with Combine profiles,146,146,0
+Keep WR and SLOT_WR,146,143,3
+Keep seasons at or after draft year,143,143,0
+Primary sample: at least 10 receiver plays,143,114,29

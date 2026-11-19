@@ -1,0 +1,203 @@
+{
+  "project": "WR-MovementIQ",
+  "notebook": "12_publication_quality_visualization.ipynb",
+  "generated_utc": "2026-11-19T02:09:45.563138+00:00",
+  "python_version": "3.10.0 (tags/v3.10.0:b494f59, Oct  4 2021, 19:00:18) [MSC v.1929 64 bit (AMD64)]",
+  "platform": "Windows-10-10.0.22621-SP0",
+  "source_artifacts": [
+    {
+      "source": "main_nested_cv_performance.csv",
+      "rows": 24,
+      "columns": 7,
+      "sha256": "bd46802adcb771b2d10f571f1683d8b99323e7b2608b0b33dae4ac4ff180735d"
+    },
+    {
+      "source": "loco_performance.csv",
+      "rows": 72,
+      "columns": 8,
+      "sha256": "a96e34f69f76edf231590180877c39450816fb58d6aad9682e2f2696439bbbf1"
+    },
+    {
+      "source": "primary_speed_outcome_decisions.csv",
+      "rows": 6,
+      "columns": 19,
+      "sha256": "51de377b36b4eaa249e25c1d32627b338a09cecd8524488470e75e3495ea1d47"
+    },
+    {
+      "source": "receiver_level_bootstrap_summary.csv",
+      "rows": 18,
+      "columns": 8,
+      "sha256": "c7468e914df9d8b38ef7168bfdbe78d9875e5e5a815a806cb224a80c82f36f66"
+    },
+    {
+      "source": "speed_feature_ablation.csv",
+      "rows": 15,
+      "columns": 8,
+      "sha256": "9b380b286e6bc21e1129c6b143a97d2f769c253a21f7c2d40de49f00e73109da"
+    },
+    {
+      "source": "sensitivity_fold_stability.csv",
+      "rows": 54,
+      "columns": 8,
+      "sha256": "bc7622a8437d1ee0b680544c034349b5f2c88bfcde8e25719ee7e6c7f2cb8c1f"
+    },
+    {
+      "source": "eligibility_threshold_comparison.csv",
+      "rows": 300,
+      "columns": 12,
+      "sha256": "2f18c185ed364866b9c50b173ce907af4f87b4438fc7c777f86472280a180d07"
+    },
+    {
+      "source": "univariate_spearman_associations.csv",
+      "rows": 54,
+      "columns": 5,
+      "sha256": "b09d03c8b6c9abee7ace0056b4d83984b2b172aa4eaea21dcc96caa7b843f334"
+    },
+    {
+      "source": "coefficient_stability_summary.csv",
+      "rows": 108,
+      "columns": 12,
+      "sha256": "f06c4126c0238b20a97b39034e251714001c9c4a876cc036182a1f52fe9f75ad"
+    }
+  ],
+  "figure_count": 12,
+  "png_count": 12,
+  "pdf_count": 12,
+  "figures": [
+    {
+      "figure_id": "figure_01_nested_game_mean_speed_raw_median",
+      "title": "Nested cross-validation MAE: Mean game speed",
+      "caption": "Out-of-fold mean absolute error for the baseline, traditional Combine, tracking-derived and combined Ridge models. Evaluation uses 93 player-seasons from 54 receivers.",
+      "png_path": "reports\\publication_visualizations\\png\\figure_01_nested_game_mean_speed_raw_median.png",
+      "pdf_path": "reports\\publication_visualizations\\pdf\\figure_01_nested_game_mean_speed_raw_median.pdf",
+      "png_bytes": 108608,
+      "pdf_bytes": 15778,
+      "png_sha256": "b2907026630fd58a23a3e37760ed895e44451b1c287d36678fa449301e47421d",
+      "pdf_sha256": "6e56feaebcd268c82837b250021687aedd721276e619911bc1fc5fe50e98925c"
+    },
+    {
+      "figure_id": "figure_02_nested_game_p95_speed_raw_median",
+      "title": "Nested cross-validation MAE: 95th-percentile game speed",
+      "caption": "Out-of-fold mean absolute error for the baseline, traditional Combine, tracking-derived and combined Ridge models. Evaluation uses 93 player-seasons from 54 receivers.",
+      "png_path": "reports\\publication_visualizations\\png\\figure_02_nested_game_p95_speed_raw_median.png",
+      "pdf_path": "reports\\publication_visualizations\\pdf\\figure_02_nested_game_p95_speed_raw_median.pdf",
+      "png_bytes": 103164,
+      "pdf_bytes": 16389,
+      "png_sha256": "c75376a48faf541b1daf824814cdc5fc2709984a05c524c7c2997e969f140d4c",
+      "pdf_sha256": "8065b2aefe61db62e29f4d7a2969fd86b60843c9201d3f87b883e912b854da18"
+    },
+    {
+      "figure_id": "figure_03_nested_game_peak_speed_raw_median",
+      "title": "Nested cross-validation MAE: Peak game speed",
+      "caption": "Out-of-fold mean absolute error for the baseline, traditional Combine, tracking-derived and combined Ridge models. Evaluation uses 93 player-seasons from 54 receivers.",
+      "png_path": "reports\\publication_visualizations\\png\\figure_03_nested_game_peak_speed_raw_median.png",
+      "pdf_path": "reports\\publication_visualizations\\pdf\\figure_03_nested_game_peak_speed_raw_median.pdf",
+      "png_bytes": 100288,
+      "pdf_bytes": 16148,
+      "png_sha256": "3713726d557ea09c38d939bb427f4d09b10fcbc591c27f4126f35daf1260667b",
+      "pdf_sha256": "fcdf0016b7e5f0c74725c6327354c882bad3c7b2d7a922c1bb84d00762601ef6"
+    },
+    {
+      "figure_id": "figure_04_all_outcome_mae_heatmap",
+      "title": "Nested cross-validation MAE across all outcomes",
+      "caption": "Heatmap of out-of-fold MAE for six game movement outcomes and four model specifications. Outcomes have different measurement scales and should not be compared as though they shared a common unit.",
+      "png_path": "reports\\publication_visualizations\\png\\figure_04_all_outcome_mae_heatmap.png",
+      "pdf_path": "reports\\publication_visualizations\\pdf\\figure_04_all_outcome_mae_heatmap.pdf",
+      "png_bytes": 198130,
+      "pdf_bytes": 36410,
+      "png_sha256": "85bd19bbe1400674f5551869838888fb70161e7292f8d38d5cc844d9fbeb17a3",
+      "pdf_sha256": "4abfbd3bfaa16fc3e4b2c72e7e8e15464ea836f8eac053f06d00bdad9d7fee85"
+    },
+    {
+      "figure_id": "figure_05_bootstrap_game_p95_speed_raw_median",
+      "title": "Receiver-level bootstrap: 95th-percentile game speed",
+      "caption": "Receiver-level bootstrap comparison of MAE differences versus baseline, using 5,000 replicates and fold-stratified resampling. Negative differences favour the evaluated model. Intervals crossing zero do not establish a reliable improvement.",
+      "png_path": "reports\\publication_visualizations\\png\\figure_05_bootstrap_game_p95_speed_raw_median.png",
+      "pdf_path": "reports\\publication_visualizations\\pdf\\figure_05_bootstrap_game_p95_speed_raw_median.pdf",
+      "png_bytes": 75467,
+      "pdf_bytes": 16550,
+      "png_sha256": "1c53272e70b07ae8f7da0c2a5f8e01138f908c0246d98c954ec6cbfa1c9446cf",
+      "pdf_sha256": "69232b019876f408bc9a9494483ddfaf129846c9d8fe88b0be88c75f78b09dc6"
+    },
+    {
+      "figure_id": "figure_06_bootstrap_game_peak_speed_raw_median",
+      "title": "Receiver-level bootstrap: Peak game speed",
+      "caption": "Receiver-level bootstrap comparison of MAE differences versus baseline, using 5,000 replicates and fold-stratified resampling. Negative differences favour the evaluated model. Intervals crossing zero do not establish a reliable improvement.",
+      "png_path": "reports\\publication_visualizations\\png\\figure_06_bootstrap_game_peak_speed_raw_median.png",
+      "pdf_path": "reports\\publication_visualizations\\pdf\\figure_06_bootstrap_game_peak_speed_raw_median.pdf",
+      "png_bytes": 74260,
+      "pdf_bytes": 16488,
+      "png_sha256": "871eda099aeaa4cb01c6ba963461b4fa64ba5b15f2819e813fe343d3837946cc",
+      "pdf_sha256": "45582917860e9cfb1d5da37015e78d59359819aa56412229375bf5d924fb137d"
+    },
+    {
+      "figure_id": "figure_07_loco_game_mean_speed_raw_median",
+      "title": "LOCO performance: Mean game speed",
+      "caption": "Mean absolute error when an entire draft cohort is held out. Cohort sample sizes are unequal; these estimates are cohort-specific and should not be interpreted as definitive future-season generalization.",
+      "png_path": "reports\\publication_visualizations\\png\\figure_07_loco_game_mean_speed_raw_median.png",
+      "pdf_path": "reports\\publication_visualizations\\pdf\\figure_07_loco_game_mean_speed_raw_median.pdf",
+      "png_bytes": 90393,
+      "pdf_bytes": 16679,
+      "png_sha256": "aa37f5ac47c6a50857f5bf907e724ec4404e79546b4f78e97b45ae8e4155818c",
+      "pdf_sha256": "969cf51cb3190cf7e23ec0d4ccc7cb13a3a6cea543c406f6b932d23d7dd7033a"
+    },
+    {
+      "figure_id": "figure_08_loco_game_p95_speed_raw_median",
+      "title": "LOCO performance: 95th-percentile game speed",
+      "caption": "Mean absolute error when an entire draft cohort is held out. Cohort sample sizes are unequal; these estimates are cohort-specific and should not be interpreted as definitive future-season generalization.",
+      "png_path": "reports\\publication_visualizations\\png\\figure_08_loco_game_p95_speed_raw_median.png",
+      "pdf_path": "reports\\publication_visualizations\\pdf\\figure_08_loco_game_p95_speed_raw_median.pdf",
+      "png_bytes": 96672,
+      "pdf_bytes": 17349,
+      "png_sha256": "189535c5b8c9995729e2efce78afb1be6a3b548c18f81ee7e755202ed8389262",
+      "pdf_sha256": "172b5b9422def3949cfea7e4a8a68d1e92fe93863a1fc2b3cd3586cfe34bbed8"
+    },
+    {
+      "figure_id": "figure_09_loco_game_peak_speed_raw_median",
+      "title": "LOCO performance: Peak game speed",
+      "caption": "Mean absolute error when an entire draft cohort is held out. Cohort sample sizes are unequal; these estimates are cohort-specific and should not be interpreted as definitive future-season generalization.",
+      "png_path": "reports\\publication_visualizations\\png\\figure_09_loco_game_peak_speed_raw_median.png",
+      "pdf_path": "reports\\publication_visualizations\\pdf\\figure_09_loco_game_peak_speed_raw_median.pdf",
+      "png_bytes": 93340,
+      "pdf_bytes": 17192,
+      "png_sha256": "3eed14b76a380a4b8056c2e7b40eb1faa2e34c9bc8fd1cc25b260e8342687594",
+      "pdf_sha256": "88e75d4d27cecd196d39e399dfef6e46682c4ab0537822680b74c83359e87615"
+    },
+    {
+      "figure_id": "figure_10_predictor_spearman_heatmap",
+      "title": "Univariate Combine-to-game movement associations",
+      "caption": "Spearman rank correlations between nine Combine predictors and six game movement outcomes. These are univariate associations and do not represent adjusted independent effects or causality.",
+      "png_path": "reports\\publication_visualizations\\png\\figure_10_predictor_spearman_heatmap.png",
+      "pdf_path": "reports\\publication_visualizations\\pdf\\figure_10_predictor_spearman_heatmap.pdf",
+      "png_bytes": 318575,
+      "pdf_bytes": 43187,
+      "png_sha256": "ef92e19146971799fad29821657b85fc9d06ff030cd9ee0ecd03d952b2203d96",
+      "pdf_sha256": "0d516e8073b34b75f0e81f6d98515da7dc302c04ad34a1c76e1ac7c71cf774a1"
+    },
+    {
+      "figure_id": "figure_11_tracking_feature_ablation",
+      "title": "Tracking-feature ablation across game speed outcomes",
+      "caption": "Comparison of full and ablated tracking-feature specifications across mean, P95 and peak game speed. The results are descriptive and do not establish that an individual feature causes improved prediction.",
+      "png_path": "reports\\publication_visualizations\\png\\figure_11_tracking_feature_ablation.png",
+      "pdf_path": "reports\\publication_visualizations\\pdf\\figure_11_tracking_feature_ablation.pdf",
+      "png_bytes": 227630,
+      "pdf_bytes": 17512,
+      "png_sha256": "4e56659f0a338ec59776c30fe32a2d5e2a71bf85cfa535b55f1e1f4d87b75359",
+      "pdf_sha256": "3cca2c4da7bce3b8868094a9bccdb9f3348797f99581d7852f8618a2fdf53fb5"
+    },
+    {
+      "figure_id": "figure_12_eligibility_sample_size",
+      "title": "Analysis sample size across receiver-play thresholds",
+      "caption": "Eligible player-season and receiver counts across minimum receiver-play thresholds of 5, 8, 10, 12 and 15. The threshold-10 sample contains 93 player-seasons and 54 receivers.",
+      "png_path": "reports\\publication_visualizations\\png\\figure_12_eligibility_sample_size.png",
+      "pdf_path": "reports\\publication_visualizations\\pdf\\figure_12_eligibility_sample_size.pdf",
+      "png_bytes": 109710,
+      "pdf_bytes": 15267,
+      "png_sha256": "f3e5b39636fe9307db3bfaf146bb1788618bbc274ce4b6840552a44b96ab4bd2",
+      "pdf_sha256": "ba0b88e8c38edd89b6e0f5ed306a134c9e97602019ce45e5103c398a2b9b8fd4"
+    }
+  ],
+  "visualization_status": "PASS",
+  "model_training_performed": false,
+  "data_modified": false
+}

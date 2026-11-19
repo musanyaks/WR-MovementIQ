@@ -1,0 +1,5 @@
+model,predictors
+BASELINE,Intercept-only reference
+TRADITIONAL,"40-yard dash, vertical jump, broad jump"
+TRACKING,"Combine-derived mean speed, peak speed, P95 speed, mean acceleration, peak acceleration and path efficiency"
+COMBINED,Traditional Combine measurements and tracking-derived movement predictors

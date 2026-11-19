@@ -1,0 +1,60 @@
+{
+  "notebook": "08_nested_ridge_modeling.ipynb",
+  "dataset": "data\\features\\wr_analysis_dataset_core_common.parquet",
+  "dataset_sha256": "02fbd802522973f7c4d100da57cd680f7bbfde6346a0431a7aa1fe5e25807c5c",
+  "rows": 93,
+  "players": 54,
+  "outcomes": [
+    "game_mean_speed_raw_median",
+    "game_peak_speed_raw_median",
+    "game_p95_speed_raw_median",
+    "game_mean_acceleration_raw_median",
+    "game_peak_acceleration_raw_median",
+    "game_path_efficiency_median"
+  ],
+  "model_specifications": {
+    "TRADITIONAL": [
+      "forty",
+      "vertical",
+      "broad_jump"
+    ],
+    "TRACKING": [
+      "combine_mean_speed_median_across_drills",
+      "combine_peak_speed_median_across_drills",
+      "combine_p95_speed_median_across_drills",
+      "combine_mean_acceleration_median_across_drills",
+      "combine_peak_acceleration_median_across_drills",
+      "combine_path_efficiency_median_across_drills"
+    ],
+    "COMBINED": [
+      "forty",
+      "vertical",
+      "broad_jump",
+      "combine_mean_speed_median_across_drills",
+      "combine_peak_speed_median_across_drills",
+      "combine_p95_speed_median_across_drills",
+      "combine_mean_acceleration_median_across_drills",
+      "combine_peak_acceleration_median_across_drills",
+      "combine_path_efficiency_median_across_drills"
+    ]
+  },
+  "alphas": [
+    0.001,
+    0.01,
+    0.1,
+    1,
+    10,
+    100,
+    1000,
+    10000,
+    100000
+  ],
+  "outer_cv": "5-fold GroupKFold grouped by nfl_id; assignments from Notebook 07",
+  "inner_cv": "adaptive GroupKFold grouped by nfl_id; alpha selected by mean validation MAE",
+  "bootstrap": {
+    "unit": "receiver",
+    "replicates": 5000,
+    "seed": 2027
+  },
+  "loco": "leave one draft_year cohort out"
+}

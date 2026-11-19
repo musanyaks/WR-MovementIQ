@@ -1,0 +1,35 @@
+{
+    "notebook": "08D_fold_stratified_receiver_validation.ipynb",
+    "seed": 2027,
+    "bootstrap_replicates": 5000,
+    "oof_rows": 2232,
+    "receivers": 54,
+    "outer_folds": [
+        1,
+        2,
+        3,
+        4,
+        5
+    ],
+    "outcomes": [
+        "game_mean_acceleration_raw_median",
+        "game_mean_speed_raw_median",
+        "game_p95_speed_raw_median",
+        "game_path_efficiency_median",
+        "game_peak_acceleration_raw_median",
+        "game_peak_speed_raw_median"
+    ],
+    "models": [
+        "BASELINE",
+        "COMBINED",
+        "TRACKING",
+        "TRADITIONAL"
+    ],
+    "models_refit": false,
+    "fold_assignment_validation": "PASS",
+    "primary_estimand": "Equal-weight mean of five fold-specific receiver-level paired MAE differences.",
+    "bootstrap_method": "Receiver resampling within original outer folds.",
+    "core_dataset_sha256": "02fbd802522973f7c4d100da57cd680f7bbfde6346a0431a7aa1fe5e25807c5c",
+    "oof_sha256": "7ca68581c0b2a92c616aaca54ec0e6577d3af976abf6b6a1323f40e0c589e0a8",
+    "fold_assignments_sha256": "e066f134cb31dd49001a5834b388e4a91ed0dcb810f9d64834c9ed39a894395c"
+}

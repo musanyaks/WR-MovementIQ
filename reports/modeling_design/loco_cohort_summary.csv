@@ -1,0 +1,4 @@
+held_out_draft_year,train_rows,test_rows,train_players,test_players,train_cohorts
+2023,48,45,34,20,"2024,2025"
+2024,59,34,34,20,"2023,2025"
+2025,79,14,40,14,"2023,2024"

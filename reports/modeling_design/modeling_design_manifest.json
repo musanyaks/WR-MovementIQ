@@ -1,0 +1,65 @@
+{
+  "notebook": "07_modeling_design_validation",
+  "core_dataset": "data\\features\\wr_analysis_dataset_core_common.parquet",
+  "core_dataset_sha256": "02fbd802522973f7c4d100da57cd680f7bbfde6346a0431a7aa1fe5e25807c5c",
+  "rows": 93,
+  "unique_players": 54,
+  "draft_years": [
+    2023,
+    2024,
+    2025
+  ],
+  "primary_key": [
+    "draft_year",
+    "nfl_id",
+    "season"
+  ],
+  "outcomes": [
+    "game_mean_speed_raw_median",
+    "game_peak_speed_raw_median",
+    "game_p95_speed_raw_median",
+    "game_mean_acceleration_raw_median",
+    "game_peak_acceleration_raw_median",
+    "game_path_efficiency_median"
+  ],
+  "model_features": {
+    "TRADITIONAL": [
+      "forty",
+      "vertical",
+      "broad_jump"
+    ],
+    "TRACKING": [
+      "combine_mean_speed_median_across_drills",
+      "combine_peak_speed_median_across_drills",
+      "combine_p95_speed_median_across_drills",
+      "combine_mean_acceleration_median_across_drills",
+      "combine_peak_acceleration_median_across_drills",
+      "combine_path_efficiency_median_across_drills"
+    ],
+    "COMBINED": [
+      "forty",
+      "vertical",
+      "broad_jump",
+      "combine_mean_speed_median_across_drills",
+      "combine_peak_speed_median_across_drills",
+      "combine_p95_speed_median_across_drills",
+      "combine_mean_acceleration_median_across_drills",
+      "combine_peak_acceleration_median_across_drills",
+      "combine_path_efficiency_median_across_drills"
+    ]
+  },
+  "outer_validation": {
+    "method": "GroupKFold",
+    "n_splits": 5,
+    "group": "nfl_id"
+  },
+  "inner_validation": {
+    "method": "GroupKFold",
+    "max_splits": 4,
+    "group": "nfl_id"
+  },
+  "generalization_validation": "Leave-one-draft-cohort-out",
+  "imputation": false,
+  "preprocessing_policy": "Fit all preprocessing within each training fold in a sklearn Pipeline.",
+  "historical_116_row_discrepancy": "Unresolved; not used to alter the audited 93-row core sample."
+}

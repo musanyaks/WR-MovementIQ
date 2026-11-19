@@ -1,0 +1,16 @@
+outcome,predictor,group,n,spearman_rho,outcome_label,absolute_rho
+game_peak_speed_raw_median,forty,TRADITIONAL,93,-0.3662396508772254,Peak game speed,0.3662396508772254
+game_p95_speed_raw_median,forty,TRADITIONAL,93,-0.3547379970634286,P95 game speed,0.3547379970634286
+game_p95_speed_raw_median,combine_peak_speed_median_across_drills,TRACKING,93,0.2926818442222441,P95 game speed,0.2926818442222441
+game_peak_speed_raw_median,combine_peak_speed_median_across_drills,TRACKING,93,0.2903672415311333,Peak game speed,0.2903672415311333
+game_mean_speed_raw_median,combine_peak_speed_median_across_drills,TRACKING,93,0.2703838250329417,Mean game speed,0.2703838250329417
+game_p95_speed_raw_median,combine_p95_speed_median_across_drills,TRACKING,93,0.2650936915833066,P95 game speed,0.2650936915833066
+game_peak_speed_raw_median,combine_p95_speed_median_across_drills,TRACKING,93,0.259949259127966,Peak game speed,0.259949259127966
+game_path_efficiency_median,combine_peak_speed_median_across_drills,TRACKING,93,0.2436170650728721,Game path efficiency,0.2436170650728721
+game_peak_acceleration_raw_median,vertical,TRADITIONAL,93,-0.2432476668436518,Peak game acceleration,0.2432476668436518
+game_mean_speed_raw_median,combine_p95_speed_median_across_drills,TRACKING,93,0.2384983664165477,Mean game speed,0.2384983664165477
+game_p95_speed_raw_median,combine_path_efficiency_median_across_drills,TRACKING,93,-0.2080171378783943,P95 game speed,0.2080171378783943
+game_mean_speed_raw_median,forty,TRADITIONAL,93,-0.1926267320654786,Mean game speed,0.1926267320654786
+game_peak_speed_raw_median,combine_path_efficiency_median_across_drills,TRACKING,93,-0.1920264195125633,Peak game speed,0.1920264195125633
+game_path_efficiency_median,combine_p95_speed_median_across_drills,TRACKING,93,0.1859439582233262,Game path efficiency,0.1859439582233262
+game_mean_acceleration_raw_median,combine_p95_speed_median_across_drills,TRACKING,93,-0.1857499479133697,Mean game acceleration,0.1857499479133697

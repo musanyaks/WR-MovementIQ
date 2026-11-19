@@ -1,0 +1,1063 @@
+
+from pathlib import Path
+import json
+import shutil
+import zipfile
+import uuid
+
+# ============================================================
+# WR-MOVEMENTIQ — NOTEBOOK 15 PUBLIC RESEARCH BUILDER
+# ============================================================
+
+ROOT = Path(__file__).resolve().parents[1]
+
+NOTEBOOK_PATH = (
+    ROOT
+    / "notebooks"
+    / "15_WR_MovementIQ_Public_Competition_Research.ipynb"
+)
+
+RELEASE_DIR = ROOT / "public_release"
+BUNDLE_DIR = RELEASE_DIR / "WR-MovementIQ_Notebook15_Artifacts"
+BUNDLE_ZIP = RELEASE_DIR / "WR-MovementIQ_Notebook15_Artifacts.zip"
+
+
+def markdown(source):
+    return {
+        "cell_type": "markdown",
+        "id": uuid.uuid4().hex[:8],
+        "metadata": {},
+        "source": source.splitlines(keepends=True),
+    }
+
+
+def code(source):
+    return {
+        "cell_type": "code",
+        "execution_count": None,
+        "id": uuid.uuid4().hex[:8],
+        "metadata": {},
+        "outputs": [],
+        "source": source.splitlines(keepends=True),
+    }
+
+
+cells = []
+
+# ------------------------------------------------------------
+# 1. TITLE AND RESEARCH OVERVIEW
+# ------------------------------------------------------------
+
+cells.append(markdown(r"""
+# WR-MovementIQ
+## Beyond the 40-Yard Dash: Linking NFL Combine Receiver Movement Mechanics to Regular-Season Performance
+
+**NFL Big Data Bowl 2027 — Public Competition Research Notebook**
+
+**Research focus:** Can receiver-specific movement characteristics measured during NFL Combine drills help explain variation in wide receivers' regular-season movement characteristics?
+
+**Study population:** Wide receivers (WR) and slot wide receivers (SLOT_WR).
+
+**Study period:** 2023–2025 draft and regular-season cohorts.
+
+**Primary modelling sample:** 93 player-seasons from 54 unique receivers.
+
+---
+
+### Research question
+
+To what extent do movement characteristics measured during NFL Combine receiver-specific drills explain variation in wide receivers' in-game movement characteristics during regular-season NFL plays?
+
+### Research contribution
+
+This project investigates whether movement information extracted from receiver-specific Combine tracking provides useful information beyond conventional athletic testing.
+
+Rather than treating the 40-yard dash as a complete representation of receiver movement, the analysis examines speed, acceleration, and path-efficiency characteristics across multiple receiver-oriented drills.
+
+The study also evaluates measurement quality, receiver-level validation, draft-cohort generalization, and sensitivity to receiver-play eligibility thresholds.
+"""))
+
+cells.append(markdown(r"""
+## 1. Executive summary
+
+The project combines two sources of movement information:
+
+1. NFL Combine receiver-drill tracking.
+2. Regular-season NFL player tracking.
+
+The analysis constructs player-level Combine movement profiles and receiver-season game movement profiles, then evaluates their relationship using Ridge regression.
+
+The primary analysis uses receiver-grouped nested cross-validation and leave-one-draft-cohort-out evaluation.
+
+**Important interpretation:** This is an observational predictive study. It does not establish that Combine movement mechanics cause subsequent NFL performance.
+
+### Evidence and execution status
+
+This notebook is a public-facing results and audit notebook. It reads validated project artifacts and presents their results. It does not claim to refit the original models or reconstruct all raw tracking features from competition data.
+
+The primary model results originate from the nested modelling workflow. The eligibility sensitivity results use the independently reconstructed Notebook 10B outputs. The original Notebook 10 sensitivity outputs are not treated as authoritative.
+"""))
+
+cells.append(markdown(r"""
+## 2. Data provenance and analysis scope
+
+The original project pipeline used the following competition data files:
+
+| Data source | Role |
+|---|---|
+| `combine_tracking.csv` | Combine drill tracking observations |
+| `combine_results.csv` | Combine positions and traditional athletic measurements |
+| `players.csv` | Player identifiers, positions, and draft cohorts |
+| `player_play.csv` | Receiver-play metadata |
+| `game_tracking_2023.csv`–`game_tracking_2025.csv` | Regular-season tracking observations |
+| `games.csv` | Game and season identifiers |
+
+Only PLAYER entities were retained from Combine tracking. Ball-tracking observations were excluded.
+
+The project uses authorized competition data as inputs. This public results notebook does not redistribute the original raw tracking files.
+
+### Unit of analysis
+
+Three distinct observation levels must not be confused:
+
+- **Tracking observations:** individual timestamped player measurements.
+- **Receiver-play records:** 6,801 receiver-play feature records in the game movement feature dataset.
+- **Receiver-season records:** aggregated player-season observations used for modelling.
+
+The merged game player-season profile contained 146 receiver-seasons before final eligibility and complete-case restrictions. The primary modelling sample was subsequently reduced to 93 player-seasons from 54 receivers.
+"""))
+
+# ------------------------------------------------------------
+# 2. METHODS
+# ------------------------------------------------------------
+
+cells.append(markdown(r"""
+## 3. Combine movement feature engineering
+
+### Receiver-specific drills
+
+Eleven primary receiver-oriented drills were selected:
+
+1. Gauntlet
+2. Dagger Route — Left
+3. Slant Route — Left
+4. Curl Route — Right
+5. Slot Strike Route — Left
+6. Over-the-Shoulder Adjust
+7. Red Zone Fade — Right
+8. Comeback Route — Right
+9. Slot Sail Route — Right
+10. Go Route — Right
+11. Post-Corner Route — Right
+
+The 40-yard dash, vertical jump, and broad jump were retained as traditional Combine measurements.
+
+### Attempt-level measurements
+
+Within each drill attempt, the pipeline calculated:
+
+- Duration
+- Mean speed
+- Peak speed
+- 95th-percentile speed
+- Mean acceleration
+- Peak acceleration
+- Coordinate-derived path length
+- Net displacement
+- Path efficiency
+
+Path efficiency was calculated as:
+
+\[
+\text{Path Efficiency}
+=
+\frac{\text{Net Displacement}}{\text{Path Length}}
+\]
+
+Valid path-efficiency values were constrained to [0, 1].
+
+### Player-level aggregation
+
+Attempt-level measurements were summarized within drills. Drill summaries were then aggregated across the selected drills using medians.
+
+The six final tracking-derived Combine predictors were:
+
+- Mean speed
+- Peak speed
+- 95th-percentile speed
+- Mean acceleration
+- Peak acceleration
+- Path efficiency
+
+The use of medians reduces the influence of unusually high or low individual attempts.
+"""))
+
+cells.append(markdown(r"""
+## 4. Measurement validation
+
+Measurement validation was conducted before selecting the final predictors.
+
+### Sampling intervals
+
+The median Combine tracking interval was approximately 0.1 seconds. Gaps exceeding 0.15 seconds were examined at the attempt level.
+
+### Heading validation
+
+Recorded direction was compared against coordinate-derived direction using:
+
+```python
+heading = degrees(atan2(dx, dy)) % 360
+```
+
+This convention measures clockwise from the positive y-axis.
+
+The validated comparison produced approximately:
+
+| Statistic | Heading error |
+|---|---:|
+| Median | 1.02° |
+| Mean | 2.77° |
+| 95th percentile | 7.57° |
+
+Heading error was also investigated across speed bands and draft cohorts. Directional measurements at very low speeds require particular caution.
+
+### Turning measurements
+
+Turning measurements included total direction change, mean direction change, 95th-percentile direction change, and turning rate.
+
+Recorded and reconstructed turning measurements showed high agreement in the evaluated comparison. However, agreement varied across draft cohorts.
+
+Turning measurements were therefore retained as validation outputs but excluded from the final model specifications.
+
+Acceleration magnitude was not interpreted as signed braking or deceleration.
+"""))
+
+cells.append(markdown(r"""
+## 5. NFL regular-season movement features
+
+Game tracking observations were processed over the interval from snap to pass throw.
+
+The resulting receiver-play feature dataset contained 6,801 observations across the 2023–2025 seasons.
+
+The analysis retained WR and SLOT_WR observations and excluded seasons before a player's draft year.
+
+Play-level movement measurements included:
+
+- Speed
+- Acceleration
+- Path length
+- Path efficiency
+- Direction-change characteristics
+
+Play-level records were aggregated into receiver-season profiles and linked to Combine profiles using player identifier and draft year.
+
+### Receiver exposure
+
+Receiver exposure was measured using `receiver_plays`.
+
+The primary analysis used a minimum exposure threshold of 10 receiver plays. Alternative thresholds of 5, 8, 12, and 15 plays were evaluated in the independently reconstructed sensitivity analysis.
+"""))
+
+cells.append(markdown(r"""
+## 6. Modelling design
+
+### Outcomes
+
+Six regular-season movement outcomes were evaluated:
+
+1. Median game mean speed
+2. Median game peak speed
+3. Median game 95th-percentile speed
+4. Median game mean acceleration
+5. Median game peak acceleration
+6. Median game path efficiency
+
+### Predictor specifications
+
+| Model | Predictor group |
+|---|---|
+| BASELINE | Baseline reference specification |
+| TRADITIONAL | 40-yard dash, vertical jump, broad jump |
+| TRACKING | Six Combine tracking-derived predictors |
+| COMBINED | Traditional and tracking-derived predictors |
+
+### Primary modelling population
+
+The frozen primary dataset contains 93 player-seasons from 54 unique receivers.
+
+| Draft cohort | Player-seasons |
+|---|---:|
+| 2023 | 45 |
+| 2024 | 34 |
+| 2025 | 14 |
+| **Total** | **93** |
+
+The observations are player-seasons, not independent receivers.
+
+### Validation strategy
+
+- Five-fold outer cross-validation grouped by receiver identifier.
+- Inner grouped cross-validation for Ridge alpha selection.
+- Standardization fitted within each training fold.
+- Alpha selected using mean inner-validation MAE.
+- Leave-one-draft-cohort-out evaluation for cohort generalization.
+- Receiver-level bootstrap analysis for paired model comparisons.
+
+The primary analysis uses complete-case observations. No missing-value imputation was required for the final complete-case modelling sample.
+"""))
+
+# ------------------------------------------------------------
+# 3. ARTIFACT DISCOVERY AND LOADING
+# ------------------------------------------------------------
+
+cells.append(markdown(r"""
+## 7. Load the validated research artifacts
+
+This notebook expects the supporting artifact bundle to preserve the following directory structure:
+
+```text
+reports/
+    final_results_synthesis/
+        final_results_manifest.json
+        tables/
+    publication_visualizations/
+        publication_visualization_manifest.json
+        png/
+    sample_eligibility_sensitivity/
+        sample_eligibility_manifest.json
+        sample_flow.csv
+        eligibility_pooled_metrics.csv
+    nested_ridge_modeling/
+        modeling_manifest.json
+```
+
+For local execution, run the notebook from the project repository.
+
+For Kaggle execution, attach the separately packaged `WR-MovementIQ_Notebook15_Artifacts` dataset. The notebook searches the available input directories for the required artifacts.
+
+The supporting bundle contains derived tables, figures, and manifests. It does not contain the original raw competition tracking data.
+"""))
+
+cells.append(code(r'''
+from pathlib import Path
+import json
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from IPython.display import display, Markdown, Image
+
+def has_required_artifacts(root):
+    required = [
+        root / "reports/final_results_synthesis/tables/main_nested_cv_performance.csv",
+        root / "reports/final_results_synthesis/tables/loco_performance.csv",
+        root / "reports/publication_visualizations/png",
+        root / "reports/sample_eligibility_sensitivity/sample_flow.csv",
+    ]
+    return all(p.exists() for p in required)
+
+def find_artifact_root():
+    candidates = [
+        Path.cwd(),
+        Path.cwd().parent,
+        Path("/kaggle/input"),
+    ]
+
+    for candidate in candidates:
+        if candidate.exists() and has_required_artifacts(candidate):
+            return candidate.resolve()
+
+    kaggle_input = Path("/kaggle/input")
+    if kaggle_input.exists():
+        marker_name = "main_nested_cv_performance.csv"
+
+        for marker in kaggle_input.rglob(marker_name):
+            candidate = marker.parents[3]
+            if has_required_artifacts(candidate):
+                return candidate.resolve()
+
+    raise FileNotFoundError(
+        "Research artifacts not found. Attach the "
+        "WR-MovementIQ Notebook 15 artifact bundle or run "
+        "this notebook from the project repository."
+    )
+
+ARTIFACT_ROOT = find_artifact_root()
+REPORTS = ARTIFACT_ROOT / "reports"
+
+print("Artifact root:", ARTIFACT_ROOT)
+print("Artifact directory found:", has_required_artifacts(ARTIFACT_ROOT))
+'''))
+
+cells.append(code(r'''
+# Load the validated result tables.
+
+FINAL_TABLES = REPORTS / "final_results_synthesis" / "tables"
+SENSITIVITY_DIR = REPORTS / "sample_eligibility_sensitivity"
+NESTED_DIR = REPORTS / "nested_ridge_modeling"
+PUBLICATION_DIR = REPORTS / "publication_visualizations"
+
+def read_csv_checked(path):
+    if not path.exists():
+        raise FileNotFoundError(f"Required artifact missing: {path}")
+    return pd.read_csv(path)
+
+main_results = read_csv_checked(
+    FINAL_TABLES / "main_nested_cv_performance.csv"
+)
+
+loco_results = read_csv_checked(
+    FINAL_TABLES / "loco_performance.csv"
+)
+
+bootstrap_results = read_csv_checked(
+    FINAL_TABLES / "receiver_level_bootstrap_summary.csv"
+)
+
+eligibility_results = read_csv_checked(
+    FINAL_TABLES / "eligibility_threshold_comparison.csv"
+)
+
+associations = read_csv_checked(
+    FINAL_TABLES / "univariate_spearman_associations.csv"
+)
+
+ablation_results = read_csv_checked(
+    FINAL_TABLES / "speed_feature_ablation.csv"
+)
+
+sample_flow = read_csv_checked(
+    SENSITIVITY_DIR / "sample_flow.csv"
+)
+
+sensitivity_metrics = read_csv_checked(
+    SENSITIVITY_DIR / "eligibility_pooled_metrics.csv"
+)
+
+reconstruction_audit = read_csv_checked(
+    FINAL_TABLES / "notebook10B_all_threshold_reconstruction_audit.csv"
+)
+
+print("Primary nested results:", main_results.shape)
+print("LOCO results:", loco_results.shape)
+print("Bootstrap results:", bootstrap_results.shape)
+print("Eligibility results:", eligibility_results.shape)
+print("Sensitivity sample flow:", sample_flow.shape)
+print("Sensitivity pooled metrics:", sensitivity_metrics.shape)
+print("Reconstruction audit:", reconstruction_audit.shape)
+'''))
+
+# ------------------------------------------------------------
+# 4. MANIFEST AND INTEGRITY CHECKS
+# ------------------------------------------------------------
+
+cells.append(markdown(r"""
+## 8. Artifact provenance and integrity checks
+
+The manifests record the source datasets, model specifications, validation design, and output-generation status.
+
+The following checks confirm that the notebook is reading the expected research artifacts. They do not independently reproduce the original model fits.
+"""))
+
+cells.append(code(r'''
+def read_json(path):
+    if not path.exists():
+        raise FileNotFoundError(f"Manifest missing: {path}")
+    return json.loads(path.read_text(encoding="utf-8"))
+
+model_manifest = read_json(
+    NESTED_DIR / "modeling_manifest.json"
+)
+
+sensitivity_manifest = read_json(
+    SENSITIVITY_DIR / "sample_eligibility_manifest.json"
+)
+
+final_manifest = read_json(
+    REPORTS / "final_results_synthesis" / "final_results_manifest.json"
+)
+
+visual_manifest = read_json(
+    PUBLICATION_DIR / "publication_visualization_manifest.json"
+)
+
+checks = {
+    "Primary modelling sample has 93 rows":
+        model_manifest.get("rows") == 93,
+
+    "Primary receiver count is 54":
+        model_manifest.get("players") == 54,
+
+    "Five outer folds documented":
+        "5-fold" in str(model_manifest.get("outer_cv", "")),
+
+    "Notebook 10B prediction count is 27,240":
+        sensitivity_manifest.get("prediction_rows") == 27240,
+
+    "Notebook 10B fold metric count is 1,500":
+        sensitivity_manifest.get("fold_metric_rows") == 1500,
+
+    "Notebook 10B audit passed":
+        str(final_manifest.get("notebook10B_status", "")).startswith("PASS"),
+
+    "Twelve publication figures documented":
+        visual_manifest.get("figure_count") == 12,
+
+    "Visualization audit passed":
+        visual_manifest.get("visualization_status") == "PASS",
+}
+
+for label, passed in checks.items():
+    print(f"{'PASS' if passed else 'FAIL'}: {label}")
+
+assert all(checks.values()), "One or more artifact integrity checks failed."
+
+print("\nARTIFACT INTEGRITY CHECK: PASSED")
+'''))
+
+cells.append(code(r'''
+print("Primary model result rows:", len(main_results))
+print("Expected primary model rows: 24")
+
+print("LOCO result rows:", len(loco_results))
+print("Expected LOCO result rows: 72")
+
+print("\nPrimary result columns:")
+print(main_results.columns.tolist())
+
+print("\nSensitivity audit:")
+display(reconstruction_audit)
+
+assert len(main_results) == 24
+assert len(loco_results) == 72
+'''))
+
+# ------------------------------------------------------------
+# 5. PRIMARY RESULTS
+# ------------------------------------------------------------
+
+cells.append(markdown(r"""
+## 9. Primary nested cross-validation results
+
+The primary results compare the baseline, traditional Combine, tracking-derived Combine, and combined Ridge specifications.
+
+The main metric is mean absolute error (MAE). RMSE, R², and Spearman correlation provide complementary views of prediction performance.
+
+A lower MAE indicates smaller average absolute prediction error. Negative R² indicates that the predictions perform worse than a test-set mean-prediction reference under the conventional R² definition.
+
+The table below is loaded from the final results synthesis artifact.
+"""))
+
+cells.append(code(r'''
+display(
+    main_results.sort_values(["outcome", "mae"])
+    .reset_index(drop=True)
+)
+'''))
+
+cells.append(code(r'''
+# Compare model MAE within each outcome.
+mae_pivot = main_results.pivot(
+    index="outcome",
+    columns="model",
+    values="mae"
+)
+
+display(mae_pivot)
+
+ax = mae_pivot.plot(
+    kind="bar",
+    figsize=(13, 6),
+    width=0.8
+)
+
+ax.set_title("Nested cross-validation MAE by outcome and model")
+ax.set_ylabel("Mean absolute error")
+ax.set_xlabel("Regular-season movement outcome")
+ax.tick_params(axis="x", rotation=35)
+ax.legend(title="Model")
+plt.tight_layout()
+plt.show()
+'''))
+
+cells.append(markdown(r"""
+### Interpretation
+
+The primary results should be interpreted outcome by outcome. A tracking-derived specification is not automatically superior because it contains more detailed measurements.
+
+The combined model may improve selected outcomes without consistently improving all six. The small receiver-level sample and uncertainty in paired model comparisons make broad claims of predictive superiority inappropriate.
+
+Negative R² values also indicate that the models do not consistently outperform a simple mean-prediction reference on every outcome.
+"""))
+
+# ------------------------------------------------------------
+# 6. BOOTSTRAP
+# ------------------------------------------------------------
+
+cells.append(markdown(r"""
+## 10. Receiver-level bootstrap comparisons
+
+Paired receiver-level bootstrap analysis evaluates uncertainty in model performance differences.
+
+The bootstrap unit is the receiver rather than the player-season row. This is important because some receivers contribute more than one season.
+
+The following table reports the saved bootstrap summaries. Confidence intervals that include zero do not provide clear evidence of a non-zero paired performance difference at the corresponding interval level.
+"""))
+
+cells.append(code(r'''
+display(
+    bootstrap_results.sort_values(["outcome", "model"])
+    .reset_index(drop=True)
+)
+
+if {"ci_2_5", "ci_97_5"}.issubset(bootstrap_results.columns):
+    bootstrap_results["ci_includes_zero"] = (
+        (bootstrap_results["ci_2_5"] <= 0)
+        & (bootstrap_results["ci_97_5"] >= 0)
+    )
+
+    print("\nBootstrap intervals including zero:")
+    display(
+        bootstrap_results[
+            ["outcome", "model", "point_estimate",
+             "ci_2_5", "ci_97_5", "ci_includes_zero"]
+        ]
+    )
+'''))
+
+cells.append(markdown(r"""
+### Interpretation
+
+The bootstrap results are uncertainty estimates, not proof that one model is universally better.
+
+Where confidence intervals include zero, the evidence does not establish a reliable difference in paired model error. Point estimates should therefore be discussed alongside uncertainty rather than in isolation.
+"""))
+
+# ------------------------------------------------------------
+# 7. LOCO
+# ------------------------------------------------------------
+
+cells.append(markdown(r"""
+## 11. Leave-one-draft-cohort-out generalization
+
+LOCO validation trains on two draft cohorts and evaluates on the remaining cohort.
+
+This tests whether relationships estimated from earlier or other cohorts transfer to a held-out draft class.
+
+The held-out cohort sizes differ. In particular, the 2025 evaluation contains only 14 player-seasons, so its estimates are relatively uncertain.
+"""))
+
+cells.append(code(r'''
+display(
+    loco_results.sort_values(
+        ["outcome", "held_out_draft_year", "model"]
+    ).reset_index(drop=True)
+)
+'''))
+
+cells.append(code(r'''
+speed_outcomes = [
+    "game_mean_speed_raw_median",
+    "game_p95_speed_raw_median",
+    "game_peak_speed_raw_median",
+]
+
+loco_speed = loco_results[
+    loco_results["outcome"].isin(speed_outcomes)
+].copy()
+
+for outcome in speed_outcomes:
+    subset = loco_speed[loco_speed["outcome"] == outcome]
+
+    if subset.empty:
+        continue
+
+    pivot = subset.pivot(
+        index="held_out_draft_year",
+        columns="model",
+        values="mae"
+    )
+
+    ax = pivot.plot(
+        kind="bar",
+        figsize=(10, 4),
+        title=f"LOCO MAE — {outcome}"
+    )
+
+    ax.set_ylabel("MAE")
+    ax.set_xlabel("Held-out draft cohort")
+    ax.tick_params(axis="x", rotation=0)
+    plt.tight_layout()
+    plt.show()
+'''))
+
+cells.append(markdown(r"""
+### Interpretation
+
+LOCO results assess cohort transfer rather than random receiver-level interpolation.
+
+Performance differences across held-out cohorts may reflect sample composition, measurement differences, or changing relationships. They should not be interpreted as proof of a temporal trend from only three cohorts.
+"""))
+
+# ------------------------------------------------------------
+# 8. SENSITIVITY
+# ------------------------------------------------------------
+
+cells.append(markdown(r"""
+## 12. Receiver-play eligibility sensitivity
+
+The primary receiver-play eligibility threshold was 10 plays.
+
+The independent Notebook 10B reconstruction evaluated thresholds of 5, 8, 10, 12, and 15 plays.
+
+The complete-case sample flow is shown below. These counts reflect the combined play-exposure and complete-case eligibility rules used in the sensitivity analysis.
+"""))
+
+cells.append(code(r'''
+display(sample_flow)
+
+ax = sample_flow.plot(
+    x="minimum_receiver_plays",
+    y="player_seasons",
+    kind="line",
+    marker="o",
+    figsize=(8, 4),
+    legend=False
+)
+
+ax.set_title("Eligible player-seasons by receiver-play threshold")
+ax.set_xlabel("Minimum receiver plays")
+ax.set_ylabel("Player-seasons")
+plt.tight_layout()
+plt.show()
+'''))
+
+cells.append(code(r'''
+display(
+    sensitivity_metrics.sort_values(
+        ["threshold", "outcome", "model"]
+    ).reset_index(drop=True)
+)
+'''))
+
+cells.append(markdown(r"""
+### Sensitivity interpretation
+
+The 5-, 8-, and 10-play thresholds produce the same complete-case sample in the reported analysis. The 12- and 15-play thresholds reduce the available sample.
+
+Changes in model performance at higher thresholds must be interpreted alongside the changing sample size. They cannot automatically be attributed to a better or worse model.
+
+### Independent reconstruction status
+
+The Notebook 10B reconstruction audit checked:
+
+- 27,240 out-of-fold prediction records.
+- 12,150 inner-tuning records.
+- 1,500 fold-metric records.
+
+The saved audit passed. Existing core receiver fold assignments were preserved, while additional receivers were assigned deterministically to the least-loaded folds.
+
+The original Notebook 10 sensitivity artifacts are retained for provenance but are not authoritative because their saved tuning and prediction outputs failed independent reconstruction.
+"""))
+
+# ------------------------------------------------------------
+# 9. ASSOCIATIONS AND ABLATION
+# ------------------------------------------------------------
+
+cells.append(markdown(r"""
+## 13. Predictor associations and feature ablation
+
+Univariate Spearman correlations describe pairwise monotonic associations. They are not estimates of independent predictor effects and do not establish causality.
+
+Feature ablation compares selected combined-model specifications after removing individual speed-related predictors.
+"""))
+
+cells.append(code(r'''
+display(
+    associations.sort_values(
+        "spearman_rho",
+        key=lambda x: x.abs(),
+        ascending=False
+    ).head(25)
+)
+'''))
+
+cells.append(code(r'''
+display(
+    ablation_results.sort_values(
+        ["outcome", "mae"]
+    ).reset_index(drop=True)
+)
+'''))
+
+cells.append(markdown(r"""
+### Interpretation
+
+Combine peak speed and 95th-percentile speed are strongly correlated in the underlying predictor analysis. Their information may therefore overlap.
+
+Ablation results should be interpreted as specification comparisons within the evaluated sample and validation design. They do not establish that a removed feature has no football value.
+"""))
+
+# ------------------------------------------------------------
+# 10. PUBLICATION FIGURES
+# ------------------------------------------------------------
+
+cells.append(markdown(r"""
+## 14. Publication-quality visual results
+
+The project generated twelve publication figures. The PNG versions are loaded from the supporting artifact bundle.
+
+These are existing project outputs; this notebook does not regenerate or refit the models used to create them.
+"""))
+
+cells.append(code(r'''
+figure_dir = PUBLICATION_DIR / "png"
+
+figure_files = sorted(figure_dir.glob("figure_*.png"))
+
+print("Publication figures found:", len(figure_files))
+assert len(figure_files) == 12, (
+    f"Expected 12 publication figures, found {len(figure_files)}"
+)
+
+for figure_path in figure_files:
+    print(figure_path.name)
+    display(Image(filename=str(figure_path)))
+'''))
+
+# ------------------------------------------------------------
+# 11. LIMITATIONS AND CONCLUSION
+# ------------------------------------------------------------
+
+cells.append(markdown(r"""
+## 15. Limitations
+
+The findings should be interpreted in light of the following limitations.
+
+1. **Sample size:** The primary analysis contains 93 player-seasons from 54 receivers.
+2. **Repeated observations:** Player-seasons are not independent receivers; receiver-grouped validation and receiver-level bootstrap are therefore important.
+3. **Cohort coverage:** Only the 2023–2025 cohorts are included.
+4. **LOCO uncertainty:** The 2025 held-out cohort contains 14 player-seasons.
+5. **Measurement:** Low-speed direction estimates can be noisy, and turning measurements showed cohort-dependent reconstruction agreement.
+6. **Feature collinearity:** Combine peak speed and 95th-percentile speed contain overlapping information.
+7. **Predictive limits:** Some model specifications do not outperform a simple mean-prediction reference on every outcome.
+8. **Observational design:** Predictive associations do not establish causation.
+9. **Artifact scope:** This public notebook presents validated derived outputs; it does not independently rebuild every feature from raw competition data.
+10. **External validity:** Results from these cohorts should not automatically be generalized to all NFL receivers or future seasons.
+"""))
+
+cells.append(markdown(r"""
+## 16. Research conclusion
+
+WR-MovementIQ evaluates whether receiver-specific Combine tracking can add information to conventional athletic testing when describing regular-season receiver movement.
+
+The results support a cautious conclusion:
+
+- Receiver-specific Combine tracking provides additional movement measurements that are not represented by a single 40-yard dash time.
+- Some Combine movement predictors show associations with regular-season movement outcomes.
+- Tracking-derived and combined Ridge models do not demonstrate consistent, statistically convincing predictive improvement across all outcomes.
+- Receiver-level uncertainty and draft-cohort generalization remain important constraints.
+- Measurement validation and independent reconstruction materially strengthen the credibility of the analysis.
+
+The project therefore contributes a measurement and modelling framework for investigating Combine-to-NFL movement relationships, while avoiding claims of universal predictive superiority.
+
+### Final takeaway
+
+**The 40-yard dash is informative, but it is not a complete description of receiver movement. Richer Combine tracking creates a broader measurement framework; whether it improves prediction depends on the outcome, validation design, and available sample.**
+"""))
+
+cells.append(markdown(r"""
+## 17. Reproducibility and execution notes
+
+### What this notebook executes
+
+- Discovers the supporting artifact directory.
+- Loads result tables and manifests.
+- Checks expected sample sizes and audit statuses.
+- Displays nested cross-validation results.
+- Displays receiver-level bootstrap summaries.
+- Displays LOCO results.
+- Displays eligibility sensitivity results.
+- Displays predictor associations and ablation results.
+- Loads publication figures.
+
+### What this notebook does not execute
+
+- It does not download competition data.
+- It does not reconstruct all raw Combine or game tracking features.
+- It does not refit the nested Ridge models.
+- It does not recreate the independent Notebook 10B reconstruction from scratch.
+
+The results layer is based on validated project artifacts. The manifests provide provenance for the underlying analyses.
+
+### Software
+
+The notebook uses Python, pandas, NumPy, Matplotlib, and IPython display utilities.
+
+### Artifact requirements
+
+For local execution, preserve the original project directory structure.
+
+For hosted execution, attach the separately packaged `WR-MovementIQ_Notebook15_Artifacts` dataset and ensure the `reports/` directory is preserved.
+
+**Project:** WR-MovementIQ  
+**Competition:** NFL Big Data Bowl 2027  
+**Research status:** Competition research draft; not a claim of official submission.
+"""))
+
+# ------------------------------------------------------------
+# BUILD NOTEBOOK
+# ------------------------------------------------------------
+
+notebook = {
+    "cells": cells,
+    "metadata": {
+        "kernelspec": {
+            "display_name": "Python 3",
+            "language": "python",
+            "name": "python3",
+        },
+        "language_info": {
+            "name": "python",
+            "version": "3.10.0",
+            "file_extension": ".py",
+            "mimetype": "text/x-python",
+            "nbconvert_exporter": "python",
+            "pygments_lexer": "ipython3",
+        },
+    },
+    "nbformat": 4,
+    "nbformat_minor": 5,
+}
+
+NOTEBOOK_PATH.parent.mkdir(parents=True, exist_ok=True)
+
+NOTEBOOK_PATH.write_text(
+    json.dumps(notebook, indent=2, ensure_ascii=False),
+    encoding="utf-8",
+)
+
+# ------------------------------------------------------------
+# PACKAGE PUBLIC ARTIFACTS
+# ------------------------------------------------------------
+
+if BUNDLE_DIR.exists():
+    shutil.rmtree(BUNDLE_DIR)
+
+BUNDLE_DIR.mkdir(parents=True, exist_ok=True)
+
+required_files = [
+    "reports/final_results_synthesis/final_results_manifest.json",
+    "reports/final_results_synthesis/research_interpretation.json",
+    "reports/final_results_synthesis/tables/main_nested_cv_performance.csv",
+    "reports/final_results_synthesis/tables/loco_performance.csv",
+    "reports/final_results_synthesis/tables/receiver_level_bootstrap_summary.csv",
+    "reports/final_results_synthesis/tables/eligibility_threshold_comparison.csv",
+    "reports/final_results_synthesis/tables/univariate_spearman_associations.csv",
+    "reports/final_results_synthesis/tables/speed_feature_ablation.csv",
+    "reports/final_results_synthesis/tables/notebook10B_all_threshold_reconstruction_audit.csv",
+    "reports/nested_ridge_modeling/modeling_manifest.json",
+    "reports/sample_eligibility_sensitivity/sample_eligibility_manifest.json",
+    "reports/sample_eligibility_sensitivity/sample_flow.csv",
+    "reports/sample_eligibility_sensitivity/eligibility_pooled_metrics.csv",
+    "reports/publication_visualizations/publication_visualization_manifest.json",
+]
+
+for relative in required_files:
+    source = ROOT / relative
+    if not source.exists():
+        raise FileNotFoundError(f"Cannot package missing artifact: {source}")
+
+    destination = BUNDLE_DIR / relative
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(source, destination)
+
+# Copy the twelve publication PNG figures.
+source_figures = ROOT / "reports/publication_visualizations/png"
+destination_figures = (
+    BUNDLE_DIR / "reports/publication_visualizations/png"
+)
+
+destination_figures.mkdir(parents=True, exist_ok=True)
+
+for figure in source_figures.glob("figure_*.png"):
+    shutil.copy2(
+        figure,
+        destination_figures / figure.name
+    )
+
+figure_count = len(list(destination_figures.glob("figure_*.png")))
+if figure_count != 12:
+    raise RuntimeError(
+        f"Expected 12 publication figures; copied {figure_count}"
+    )
+
+readme = """# WR-MovementIQ Notebook 15 — Supporting Artifacts
+
+This bundle contains derived result tables, manifests, and publication PNG
+figures required by the public research notebook.
+
+It does not contain original raw NFL competition tracking data.
+
+Preserve the reports/ directory structure when attaching this bundle to a
+hosted notebook environment.
+
+The results are derived from the validated WR-MovementIQ project workflow.
+The notebook is a results and audit presentation, not a complete raw-data
+feature reconstruction or model-refitting pipeline.
+"""
+
+(BUNDLE_DIR / "README.md").write_text(
+    readme,
+    encoding="utf-8"
+)
+
+if BUNDLE_ZIP.exists():
+    BUNDLE_ZIP.unlink()
+
+with zipfile.ZipFile(
+    BUNDLE_ZIP,
+    "w",
+    compression=zipfile.ZIP_DEFLATED
+) as archive:
+    for file in BUNDLE_DIR.rglob("*"):
+        if file.is_file():
+            archive.write(
+                file,
+                file.relative_to(BUNDLE_DIR)
+            )
+
+# ------------------------------------------------------------
+# VALIDATE OUTPUTS
+# ------------------------------------------------------------
+
+loaded = json.loads(
+    NOTEBOOK_PATH.read_text(encoding="utf-8")
+)
+
+assert loaded["nbformat"] == 4
+assert len(loaded["cells"]) == len(cells)
+assert all("id" in cell for cell in loaded["cells"])
+assert all(
+    cell["cell_type"] in {"markdown", "code"}
+    for cell in loaded["cells"]
+)
+
+with zipfile.ZipFile(BUNDLE_ZIP, "r") as archive:
+    bad_member = archive.testzip()
+    if bad_member:
+        raise RuntimeError(f"Corrupt ZIP member: {bad_member}")
+
+print("=" * 75)
+print("WR-MOVEMENTIQ NOTEBOOK 15 BUILD COMPLETE")
+print("=" * 75)
+print("Notebook:", NOTEBOOK_PATH)
+print("Notebook size:", f"{NOTEBOOK_PATH.stat().st_size:,}", "bytes")
+print("Cells:", len(loaded["cells"]))
+print("Code cells:", sum(c["cell_type"] == "code" for c in cells))
+print("Markdown cells:", sum(c["cell_type"] == "markdown" for c in cells))
+print("Artifact bundle:", BUNDLE_DIR)
+print("Publication figures packaged:", figure_count)
+print("ZIP bundle:", BUNDLE_ZIP)
+print("ZIP size:", f"{BUNDLE_ZIP.stat().st_size:,}", "bytes")
+print("NOTEBOOK JSON VALIDATION: PASS")
+print("ARTIFACT BUNDLE VALIDATION: PASS")

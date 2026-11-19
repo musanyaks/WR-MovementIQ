@@ -1,0 +1,233 @@
+{
+  "project": "WR-MovementIQ",
+  "notebook": "11_final_results_synthesis.ipynb",
+  "generated_utc": "2026-11-19T02:03:08.350356+00:00",
+  "python_version": "3.10.0 (tags/v3.10.0:b494f59, Oct  4 2021, 19:00:18) [MSC v.1929 64 bit (AMD64)]",
+  "platform": "Windows-10-10.0.22621-SP0",
+  "analysis_type": "Results synthesis; no model refitting.",
+  "primary_dataset_sha256": "02fbd802522973f7c4d100da57cd680f7bbfde6346a0431a7aa1fe5e25807c5c",
+  "notebook10_status": "Historical outputs retained for provenance but not authoritative because saved tuning and prediction artifacts failed independent reconstruction.",
+  "notebook10B_status": "PASS: all-threshold independent reconstruction.",
+  "threshold_audit_checks": 15,
+  "threshold_audit_passes": 15,
+  "threshold_audit_failures": 0,
+  "source_artifacts": [
+    {
+      "artifact": "nested_cv",
+      "path": "reports/nested_ridge_modeling/nested_cv_metrics.csv",
+      "rows": 24,
+      "columns": 7,
+      "sha256": "f53b899fef2f0399e5009bcfe7161a57d494a503f200a7f642a85508231e2a94",
+      "status": "PRESENT"
+    },
+    {
+      "artifact": "loco",
+      "path": "reports/nested_ridge_modeling/loco_metrics.csv",
+      "rows": 72,
+      "columns": 8,
+      "sha256": "a7a32c9ed70ae8448b8dd3615c0f78e4db4bbbdc1ec3715fa0f61698f23d13f7",
+      "status": "PRESENT"
+    },
+    {
+      "artifact": "primary_decisions",
+      "path": "reports/fold_stratified_receiver_validation/primary_speed_outcome_decisions.csv",
+      "rows": 6,
+      "columns": 19,
+      "sha256": "c6ec766f2e5ab04953b0dfdf8c8d5e3fef3a12b621b8b299e8ef02b44718e26e",
+      "status": "PRESENT"
+    },
+    {
+      "artifact": "receiver_bootstrap",
+      "path": "reports/fold_stratified_receiver_validation/fold_stratified_receiver_bootstrap.csv",
+      "rows": 18,
+      "columns": 8,
+      "sha256": "1e8b05f09cf1f7f5783ae7e8f086071b46676d400d6641af97c7abce5fdbffea",
+      "status": "PRESENT"
+    },
+    {
+      "artifact": "speed_ablation",
+      "path": "reports/robustness_sensitivity/speed_feature_sensitivity.csv",
+      "rows": 15,
+      "columns": 8,
+      "sha256": "f7ffdad3a40ff073d73a55142bc9a0af08a12e4a69d83bef64cef20c5e4dc57e",
+      "status": "PRESENT"
+    },
+    {
+      "artifact": "fold_stability",
+      "path": "reports/robustness_sensitivity/sensitivity_fold_stability.csv",
+      "rows": 54,
+      "columns": 8,
+      "sha256": "82c8400a2c4bfef935c7befb8cbb6daff81dc24d554f190bd823029b339dc2ff",
+      "status": "PRESENT"
+    },
+    {
+      "artifact": "eligibility",
+      "path": "reports/sample_eligibility_sensitivity/eligibility_threshold_comparison.csv",
+      "rows": 300,
+      "columns": 12,
+      "sha256": "86c02d1887159d20ea401efdaac47fab3661f15fe1a5b12275cd112bd3c2ca8b",
+      "status": "PRESENT"
+    },
+    {
+      "artifact": "associations",
+      "path": "reports/predictor_interpretation/univariate_spearman_associations.csv",
+      "rows": 54,
+      "columns": 5,
+      "sha256": "a938c4e354483d5bc9d3318f5960690ef15a9009dadd0e4fdd5514732b38ccd5",
+      "status": "PRESENT"
+    },
+    {
+      "artifact": "coefficients",
+      "path": "reports/predictor_interpretation/coefficient_stability_summary.csv",
+      "rows": 108,
+      "columns": 12,
+      "sha256": "d77ba236caa98bec219841789bcdba14e7ca1906fcbe567f28196ccf8417eba3",
+      "status": "PRESENT"
+    },
+    {
+      "artifact": "all_threshold_audit",
+      "path": "reports/robustness_sensitivity/notebook10B_all_threshold_reconstruction_audit.csv",
+      "rows": 15,
+      "columns": 9,
+      "sha256": "83577e8945139feb45c4e1ad884e97e41c190413eabe14550897e9c79b84846d",
+      "status": "PRESENT"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "reports\\final_results_synthesis\\figures\\ablation_game_mean_speed_raw_median.png",
+      "bytes": 126491,
+      "sha256": "1b7c7804c6def60ae24bdc399c95c815dc97d724dff8832f1daa20c74068b0ee"
+    },
+    {
+      "path": "reports\\final_results_synthesis\\figures\\ablation_game_p95_speed_raw_median.png",
+      "bytes": 118535,
+      "sha256": "7ca3d2a4db4b9261cb78c3341411c2e8dbfe7aa64c9e40d054ae2d91ac99ff9b"
+    },
+    {
+      "path": "reports\\final_results_synthesis\\figures\\ablation_game_peak_speed_raw_median.png",
+      "bytes": 116827,
+      "sha256": "afd6888246cabd1c0483eff73a6af2807235d69a074e9ea7b2f45a88d82cf367"
+    },
+    {
+      "path": "reports\\final_results_synthesis\\figures\\eligibility_sample_sizes.png",
+      "bytes": 78630,
+      "sha256": "825990af19fb5a6e47e5044c4a3ca575a6259909a4e889fb9eb642597f42e434"
+    },
+    {
+      "path": "reports\\final_results_synthesis\\figures\\loco_game_mean_speed_raw_median.png",
+      "bytes": 58414,
+      "sha256": "01b7793ee050ff98614836ee76fc1d2b69380fc2640eb20526b3c27097906bf7"
+    },
+    {
+      "path": "reports\\final_results_synthesis\\figures\\loco_game_p95_speed_raw_median.png",
+      "bytes": 60796,
+      "sha256": "bf3b40e4b489c897b3fcb54768df3e8012eb50f0e11b9803ad1072931f00963a"
+    },
+    {
+      "path": "reports\\final_results_synthesis\\figures\\loco_game_peak_speed_raw_median.png",
+      "bytes": 61134,
+      "sha256": "331d350690b3e91cf866b09dbfb5f9e117ad00b2cc77d5c0fa7065926e2a7960"
+    },
+    {
+      "path": "reports\\final_results_synthesis\\figures\\nested_mae_game_mean_acceleration_raw_median.png",
+      "bytes": 73896,
+      "sha256": "fb8a1a9bcb276c728e49797d118f49930b2c30126d79077ab32aa5e4eec47192"
+    },
+    {
+      "path": "reports\\final_results_synthesis\\figures\\nested_mae_game_mean_speed_raw_median.png",
+      "bytes": 74708,
+      "sha256": "54e8e019f20801ffde6d374676fc42440d9fbabb6fc1db36f18c7baa9d680b10"
+    },
+    {
+      "path": "reports\\final_results_synthesis\\figures\\nested_mae_game_p95_speed_raw_median.png",
+      "bytes": 68673,
+      "sha256": "fc80c0d5ecad4b82bd6e59ae70695f3f699cd2f3052d2cee4b52caef601b55af"
+    },
+    {
+      "path": "reports\\final_results_synthesis\\figures\\nested_mae_game_path_efficiency_median.png",
+      "bytes": 80765,
+      "sha256": "cc988bfb6f05c993cf074252010767f6fbae820898b42157c064bdf02f8d229f"
+    },
+    {
+      "path": "reports\\final_results_synthesis\\figures\\nested_mae_game_peak_acceleration_raw_median.png",
+      "bytes": 74447,
+      "sha256": "4a0311a11a94e7effeeb8fc00cc426982dc9e3e82d2bb9e0babb3748723d9c9e"
+    },
+    {
+      "path": "reports\\final_results_synthesis\\figures\\nested_mae_game_peak_speed_raw_median.png",
+      "bytes": 68070,
+      "sha256": "7bfad553e133f48f5ff7cf9c32642b515919c8960438c8c7fde585261945c481"
+    },
+    {
+      "path": "reports\\final_results_synthesis\\figures\\predictor_spearman_heatmap.png",
+      "bytes": 264176,
+      "sha256": "a93f8ce8cde413bb6c656b38a9a2c2ff5ffecf61417e90c9ba8d749387bc1ae2"
+    },
+    {
+      "path": "reports\\final_results_synthesis\\figures\\primary_speed_bootstrap_intervals.png",
+      "bytes": 133199,
+      "sha256": "636768e80ca3ea7d9d5908291cb27fc1070e532a7207b5fb0cdc437e21842663"
+    },
+    {
+      "path": "reports\\final_results_synthesis\\research_interpretation.json",
+      "bytes": 1886,
+      "sha256": "5b5de2dd774916a9513b2cc83f355ad0071f36b8212ea7034ab38a9141b41ef2"
+    },
+    {
+      "path": "reports\\final_results_synthesis\\tables\\coefficient_stability_summary.csv",
+      "bytes": 19921,
+      "sha256": "f06c4126c0238b20a97b39034e251714001c9c4a876cc036182a1f52fe9f75ad"
+    },
+    {
+      "path": "reports\\final_results_synthesis\\tables\\eligibility_threshold_comparison.csv",
+      "bytes": 53459,
+      "sha256": "2f18c185ed364866b9c50b173ce907af4f87b4438fc7c777f86472280a180d07"
+    },
+    {
+      "path": "reports\\final_results_synthesis\\tables\\loco_performance.csv",
+      "bytes": 8678,
+      "sha256": "a96e34f69f76edf231590180877c39450816fb58d6aad9682e2f2696439bbbf1"
+    },
+    {
+      "path": "reports\\final_results_synthesis\\tables\\main_nested_cv_performance.csv",
+      "bytes": 2929,
+      "sha256": "bd46802adcb771b2d10f571f1683d8b99323e7b2608b0b33dae4ac4ff180735d"
+    },
+    {
+      "path": "reports\\final_results_synthesis\\tables\\notebook10B_all_threshold_reconstruction_audit.csv",
+      "bytes": 1143,
+      "sha256": "f31023fbb510a2dcf27169435bb40b1a7b8ca70b360c0ed9725986b26354eece"
+    },
+    {
+      "path": "reports\\final_results_synthesis\\tables\\primary_speed_outcome_decisions.csv",
+      "bytes": 1799,
+      "sha256": "51de377b36b4eaa249e25c1d32627b338a09cecd8524488470e75e3495ea1d47"
+    },
+    {
+      "path": "reports\\final_results_synthesis\\tables\\receiver_level_bootstrap_summary.csv",
+      "bytes": 2565,
+      "sha256": "c7468e914df9d8b38ef7168bfdbe78d9875e5e5a815a806cb224a80c82f36f66"
+    },
+    {
+      "path": "reports\\final_results_synthesis\\tables\\sensitivity_fold_stability.csv",
+      "bytes": 7228,
+      "sha256": "bc7622a8437d1ee0b680544c034349b5f2c88bfcde8e25719ee7e6c7f2cb8c1f"
+    },
+    {
+      "path": "reports\\final_results_synthesis\\tables\\source_artifact_inventory.csv",
+      "bytes": 1656,
+      "sha256": "950100fd77f7beeef29d0898f81bd40b29fcd78a89556d34fd203e208ca014d7"
+    },
+    {
+      "path": "reports\\final_results_synthesis\\tables\\speed_feature_ablation.csv",
+      "bytes": 2034,
+      "sha256": "9b380b286e6bc21e1129c6b143a97d2f769c253a21f7c2d40de49f00e73109da"
+    },
+    {
+      "path": "reports\\final_results_synthesis\\tables\\univariate_spearman_associations.csv",
+      "bytes": 5129,
+      "sha256": "b09d03c8b6c9abee7ace0056b4d83984b2b172aa4eaea21dcc96caa7b843f334"
+    }
+  ]
+}

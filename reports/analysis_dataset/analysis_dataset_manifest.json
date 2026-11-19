@@ -1,0 +1,47 @@
+{
+  "notebook": "06_analysis_dataset_construction",
+  "primary_sample_rows": 114,
+  "primary_unique_players": 65,
+  "common_complete_rows": 26,
+  "common_complete_unique_players": 16,
+  "primary_key": [
+    "draft_year",
+    "nfl_id",
+    "season"
+  ],
+  "outcomes": [
+    "game_mean_speed_raw_median",
+    "game_peak_speed_raw_median",
+    "game_p95_speed_raw_median",
+    "game_mean_acceleration_raw_median",
+    "game_peak_acceleration_raw_median",
+    "game_path_efficiency_median"
+  ],
+  "traditional_predictors": [
+    "forty",
+    "vertical",
+    "broad_jump",
+    "three_cone",
+    "short_shuttle",
+    "ten_yd_split"
+  ],
+  "tracking_predictors": [
+    "combine_mean_speed_median_across_drills",
+    "combine_peak_speed_median_across_drills",
+    "combine_p95_speed_median_across_drills",
+    "combine_mean_acceleration_median_across_drills",
+    "combine_peak_acceleration_median_across_drills",
+    "combine_path_efficiency_median_across_drills"
+  ],
+  "minimum_receiver_plays": 10,
+  "eligible_positions": [
+    "WR",
+    "SLOT_WR"
+  ],
+  "imputation_performed": false,
+  "source_tables": [
+    "wr_combine_player_profiles.parquet",
+    "wr_game_player_season_profiles.parquet",
+    "combine_results.csv"
+  ]
+}

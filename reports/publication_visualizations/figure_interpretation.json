@@ -1,0 +1,14 @@
+{
+  "main_conclusion": "Combine movement characteristics show some associations with NFL game movement, but the study has not established consistent incremental predictive accuracy from tracking-derived features beyond traditional Combine measurements.",
+  "uncertainty": "Receiver-level bootstrap confidence intervals for the primary P95 and peak speed comparisons include zero.",
+  "generalization": "LOCO results are cohort-specific and affected by unequal sample sizes.",
+  "limitations": [
+    "93 player-seasons from 54 receivers in the core modeling sample.",
+    "Complete-case eligibility requirements.",
+    "Strong correlation between some Combine speed predictors.",
+    "Coefficient variability across validation folds.",
+    "Observational design.",
+    "No causal inference."
+  ],
+  "visualization_warning": "Outcome scales differ. Do not compare raw MAE values across different outcome types as if they were the same measurement."
+}

@@ -1,0 +1,113 @@
+{
+  "project": "WR-MovementIQ",
+  "notebook": "13_competition_research_report.ipynb",
+  "generated_utc": "2026-11-19T02:15:20.905911+00:00",
+  "python_version": "3.10.0 (tags/v3.10.0:b494f59, Oct  4 2021, 19:00:18) [MSC v.1929 64 bit (AMD64)]",
+  "platform": "Windows-10-10.0.22621-SP0",
+  "primary_player_seasons": 93,
+  "primary_receivers": 54,
+  "outer_folds": 5,
+  "source_artifact_count": 10,
+  "figure_count": 12,
+  "report_file": "reports\\competition_research_report\\WR-MovementIQ_Competition_Research_Report.md",
+  "report_bytes": 30105,
+  "report_sha256": "217aeeaf02e0a616c115c9c383c867428beee102526784271d4e12faf14f481d",
+  "source_inventory": [
+    {
+      "artifact": "nested",
+      "filename": "main_nested_cv_performance.csv",
+      "relative_path": "reports\\final_results_synthesis\\tables\\main_nested_cv_performance.csv",
+      "bytes": 2929,
+      "sha256": "bd46802adcb771b2d10f571f1683d8b99323e7b2608b0b33dae4ac4ff180735d",
+      "rows": 24,
+      "columns": 7
+    },
+    {
+      "artifact": "loco",
+      "filename": "loco_performance.csv",
+      "relative_path": "reports\\final_results_synthesis\\tables\\loco_performance.csv",
+      "bytes": 8678,
+      "sha256": "a96e34f69f76edf231590180877c39450816fb58d6aad9682e2f2696439bbbf1",
+      "rows": 72,
+      "columns": 8
+    },
+    {
+      "artifact": "decisions",
+      "filename": "primary_speed_outcome_decisions.csv",
+      "relative_path": "reports\\final_results_synthesis\\tables\\primary_speed_outcome_decisions.csv",
+      "bytes": 1799,
+      "sha256": "51de377b36b4eaa249e25c1d32627b338a09cecd8524488470e75e3495ea1d47",
+      "rows": 6,
+      "columns": 19
+    },
+    {
+      "artifact": "bootstrap",
+      "filename": "receiver_level_bootstrap_summary.csv",
+      "relative_path": "reports\\final_results_synthesis\\tables\\receiver_level_bootstrap_summary.csv",
+      "bytes": 2565,
+      "sha256": "c7468e914df9d8b38ef7168bfdbe78d9875e5e5a815a806cb224a80c82f36f66",
+      "rows": 18,
+      "columns": 8
+    },
+    {
+      "artifact": "ablation",
+      "filename": "speed_feature_ablation.csv",
+      "relative_path": "reports\\final_results_synthesis\\tables\\speed_feature_ablation.csv",
+      "bytes": 2034,
+      "sha256": "9b380b286e6bc21e1129c6b143a97d2f769c253a21f7c2d40de49f00e73109da",
+      "rows": 15,
+      "columns": 8
+    },
+    {
+      "artifact": "stability",
+      "filename": "sensitivity_fold_stability.csv",
+      "relative_path": "reports\\final_results_synthesis\\tables\\sensitivity_fold_stability.csv",
+      "bytes": 7228,
+      "sha256": "bc7622a8437d1ee0b680544c034349b5f2c88bfcde8e25719ee7e6c7f2cb8c1f",
+      "rows": 54,
+      "columns": 8
+    },
+    {
+      "artifact": "eligibility",
+      "filename": "eligibility_threshold_comparison.csv",
+      "relative_path": "reports\\final_results_synthesis\\tables\\eligibility_threshold_comparison.csv",
+      "bytes": 53459,
+      "sha256": "2f18c185ed364866b9c50b173ce907af4f87b4438fc7c777f86472280a180d07",
+      "rows": 300,
+      "columns": 12
+    },
+    {
+      "artifact": "associations",
+      "filename": "univariate_spearman_associations.csv",
+      "relative_path": "reports\\final_results_synthesis\\tables\\univariate_spearman_associations.csv",
+      "bytes": 5129,
+      "sha256": "b09d03c8b6c9abee7ace0056b4d83984b2b172aa4eaea21dcc96caa7b843f334",
+      "rows": 54,
+      "columns": 5
+    },
+    {
+      "artifact": "coefficients",
+      "filename": "coefficient_stability_summary.csv",
+      "relative_path": "reports\\final_results_synthesis\\tables\\coefficient_stability_summary.csv",
+      "bytes": 19921,
+      "sha256": "f06c4126c0238b20a97b39034e251714001c9c4a876cc036182a1f52fe9f75ad",
+      "rows": 108,
+      "columns": 12
+    },
+    {
+      "artifact": "figure_catalogue",
+      "filename": "publication_figure_catalogue.csv",
+      "relative_path": "reports\\publication_visualizations\\tables\\publication_figure_catalogue.csv",
+      "bytes": 7245,
+      "sha256": "84e7d42a6ecd6ff98901ce68aab65ec5f2e94a22d8286b1ee3307b4ff639c6a3",
+      "rows": 12,
+      "columns": 9
+    }
+  ],
+  "model_training_performed": false,
+  "predictions_modified": false,
+  "primary_sample_modified": false,
+  "report_section_audit": "PASS",
+  "figure_reference_audit": "PASS",
+  "status": "PASS"
+}

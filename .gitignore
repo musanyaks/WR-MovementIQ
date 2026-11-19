@@ -1,0 +1,37 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+.pytest_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+.DS_Store
+Thumbs.db
+data/raw/*
+data/processed/*
+data/features/*
+reports/data_audit/*
+reports/figures/*
+reports/model_results/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+!data/features/.gitkeep
+!reports/data_audit/.gitkeep
+!reports/figures/.gitkeep
+!reports/model_results/.gitkeep
+# Generated Python package metadata
+*.egg-info/
+
+# Temporary backups and intermediate notebooks
+*.backup_*
+*before_artifact_fix.ipynb
+# Derived competition data - keep local
+data/reference/*.parquet
+
+# Generated package metadata
+*.egg-info/
+
+# Temporary backups
+*.backup
+*.backup_*

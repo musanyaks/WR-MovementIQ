@@ -1,0 +1,48 @@
+{
+  "notebook": "09_predictor_interpretation_and_feature_stability.ipynb",
+  "dataset": "data\\features\\wr_analysis_dataset_core_common.parquet",
+  "dataset_rows": 93,
+  "receivers": 54,
+  "outer_folds": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "outcomes": [
+    "game_mean_speed_raw_median",
+    "game_p95_speed_raw_median",
+    "game_peak_speed_raw_median",
+    "game_mean_acceleration_raw_median",
+    "game_peak_acceleration_raw_median",
+    "game_path_efficiency_median"
+  ],
+  "traditional_predictors": [
+    "forty",
+    "vertical",
+    "broad_jump"
+  ],
+  "tracking_predictors": [
+    "combine_mean_speed_median_across_drills",
+    "combine_peak_speed_median_across_drills",
+    "combine_p95_speed_median_across_drills",
+    "combine_mean_acceleration_median_across_drills",
+    "combine_peak_acceleration_median_across_drills",
+    "combine_path_efficiency_median_across_drills"
+  ],
+  "coefficient_method": "Fold-specific standardized Ridge coefficients using selected alpha from existing inner tuning. Scaling fitted on outer training data only.",
+  "causal_claims": false,
+  "outputs": [
+    "coefficient_stability_summary.csv",
+    "existing_oof_performance_snapshot.csv",
+    "fold_specific_standardized_coefficients.csv",
+    "game_p95_speed_raw_median_coefficient_stability.png",
+    "game_peak_speed_raw_median_coefficient_stability.png",
+    "predictor_correlation_heatmap.png",
+    "predictor_correlation_pairs.csv",
+    "predictor_distribution_summary.csv",
+    "predictor_spearman_correlation_matrix.csv",
+    "univariate_spearman_associations.csv"
+  ]
+}

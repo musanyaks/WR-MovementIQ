@@ -1,0 +1,27 @@
+{
+  "research_question": "To what extent do movement characteristics measured during NFL Combine receiver-specific drills explain variation in wide receivers' in-game movement characteristics?",
+  "main_findings": [
+    "Traditional and tracking-derived Combine measures show some associations with in-game movement outcomes.",
+    "Tracking-derived features do not demonstrate consistent, convincing incremental improvement in absolute predictive accuracy.",
+    "Some combined models have favourable point estimates for peak and 95th-percentile game speed, but receiver-level uncertainty intervals include zero.",
+    "Predictor coefficient magnitudes and signs vary across folds, limiting claims about stable independent feature effects.",
+    "Eligibility sensitivity is independently reconstructed across all five thresholds."
+  ],
+  "limitations": [
+    "The primary modeling sample contains 93 player-seasons from 54 receivers.",
+    "The sample is small relative to the complexity of NFL receiver performance.",
+    "Complete-case requirements reduce the available sample.",
+    "Draft cohorts have unequal sample sizes.",
+    "Combine speed predictors are strongly correlated.",
+    "Regularized coefficients are sensitive to the training fold and penalty.",
+    "Observational associations do not establish causal effects.",
+    "LOCO estimates are cohort-specific and should not be interpreted as definitive evidence of future-season generalization."
+  ],
+  "interpretation_guardrails": [
+    "Do not describe an uncertain point estimate as a proven gain.",
+    "Do not interpret negative R-squared as a negative correlation.",
+    "Do not describe univariate Spearman associations as independent effects.",
+    "Do not infer causal effects from predictive associations.",
+    "Do not claim robust generalization from a small held-out cohort."
+  ]
+}

@@ -1,0 +1,9 @@
+diagnostic,interpretation
+Predictor redundancy,Large absolute Spearman correlations indicate overlapping information; they do not by themselves prove harmful multicollinearity.
+Low predictor variation,Very low variation or few unique values can limit the information available to a model.
+Prediction shrinkage,A prediction/actual SD ratio far below 1 indicates compressed predictions; interpret alongside calibration slope and correlation.
+Calibration,A slope far below 1 indicates predictions vary less than actual outcomes; a slope near 1 is not sufficient without low error.
+Receiver error concentration,A high gap between median and 90th-percentile receiver MAE indicates performance may be uneven across players.
+Cohort instability,"Differences across draft cohorts are descriptive, especially with the 2025 held-out cohort of 14 receivers."
+Alpha boundary,Repeated selection of the largest alpha suggests the tested grid may not bracket the optimum or the predictors carry weak signal. It is not proof of a coding error.
+No causal inference,These observational predictions do not establish that Combine traits cause in-game movement performance.

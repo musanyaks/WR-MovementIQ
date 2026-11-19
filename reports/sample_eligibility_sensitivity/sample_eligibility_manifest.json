@@ -1,0 +1,67 @@
+{
+  "notebook": "10B_sample_eligibility_sensitivity",
+  "primary_dataset": "D:\\PROJECTS\\WR-MovementIQ\\data\\features\\wr_analysis_dataset_primary.parquet",
+  "primary_dataset_sha256": "edc97590badadd95b1a17c5f18fe3f1c3e71086388146222e743ca40cb78c0c0",
+  "frozen_core_dataset": "D:\\PROJECTS\\WR-MovementIQ\\data\\features\\wr_analysis_dataset_core_common.parquet",
+  "frozen_core_dataset_sha256": "02fbd802522973f7c4d100da57cd680f7bbfde6346a0431a7aa1fe5e25807c5c",
+  "thresholds": [
+    5,
+    8,
+    10,
+    12,
+    15
+  ],
+  "play_count_column": "receiver_plays",
+  "outcomes": [
+    "game_mean_speed_raw_median",
+    "game_peak_speed_raw_median",
+    "game_p95_speed_raw_median",
+    "game_mean_acceleration_raw_median",
+    "game_peak_acceleration_raw_median",
+    "game_path_efficiency_median"
+  ],
+  "models": [
+    "BASELINE",
+    "TRADITIONAL",
+    "TRACKING_FULL",
+    "COMBINED_FULL",
+    "COMBINED_NO_PEAK_SPEED",
+    "COMBINED_NO_P95_SPEED",
+    "COMBINED_PEAK_SPEED_ONLY",
+    "COMBINED_P95_SPEED_ONLY",
+    "COMBINED_NO_ACCELERATION",
+    "TRACKING_SPEED_ONLY"
+  ],
+  "outer_folds": 5,
+  "inner_folds_max": 4,
+  "alpha_grid": [
+    0.001,
+    0.01,
+    0.1,
+    1,
+    10,
+    100,
+    1000,
+    10000,
+    100000
+  ],
+  "bootstrap_replicates": 5000,
+  "random_seed": 2027,
+  "sample_rule": "Minimum receiver plays and complete cases across all nine predictors and six outcomes.",
+  "fold_rule": "Preserve Notebook 07 assignments for existing core receivers; assign additional receivers deterministically to least-loaded folds.",
+  "preprocessing": "StandardScaler fitted within each training fold in a Ridge Pipeline.",
+  "imputation": "None",
+  "prediction_rows": 27240,
+  "fold_metric_rows": 1500,
+  "outputs": [
+    "sample_flow.csv",
+    "outer_fold_sample_audit.csv",
+    "eligibility_oof_predictions.csv",
+    "eligibility_fold_metrics.csv",
+    "eligibility_pooled_metrics.csv",
+    "eligibility_inner_tuning.csv",
+    "eligibility_receiver_bootstrap.csv",
+    "eligibility_threshold_comparison.csv",
+    "eligibility_receiver_level_errors.csv"
+  ]
+}

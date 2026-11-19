@@ -1,0 +1,38 @@
+{
+  "project": "WR-MovementIQ",
+  "release": "Notebook 15 Public Competition Research",
+  "generated_utc": "2026-11-19T03:36:44.216491+00:00",
+  "hash_algorithm": "SHA-256",
+  "files": [
+    {
+      "path": "notebooks/15_WR_MovementIQ_Public_Competition_Research.ipynb",
+      "size_bytes": 40609,
+      "sha256": "34fc122277bf43a7c97930568a97b36d069959159edeaf95e2324e66e344a3c4"
+    },
+    {
+      "path": "notebooks/15_WR_MovementIQ_Public_Competition_Research_executed.ipynb",
+      "size_bytes": 2464257,
+      "sha256": "98d128d0d05a1225cf1e828ad64a7417136fe0ec7c78c0857097018dfc93ad51"
+    },
+    {
+      "path": "public_release/WR-MovementIQ_Notebook15_Artifacts.zip",
+      "size_bytes": 1284798,
+      "sha256": "e6bc953c632d7c9923dfc7b68f1245adf574113b5a6de958157e5848bf9737ee"
+    },
+    {
+      "path": "reports/competition_research_report/WR-MovementIQ_Competition_Research_Report.md",
+      "size_bytes": 30105,
+      "sha256": "217aeeaf02e0a616c115c9c383c867428beee102526784271d4e12faf14f481d"
+    },
+    {
+      "path": "reports/competition_research_report/WR-MovementIQ_Technical_Appendix.md",
+      "size_bytes": 12040,
+      "sha256": "991be18b0f1ed32a13ac711e0d16bbd6857d10ae91597c9479599cdd93e90e08"
+    },
+    {
+      "path": "reports/competition_submission/WR-MovementIQ_Kaggle_Writeup.md",
+      "size_bytes": 7997,
+      "sha256": "b572b33d762f2b44a2f459f1724e002862a54e9dc1b09dffd3a0a95cf4cd92c6"
+    }
+  ]
+}

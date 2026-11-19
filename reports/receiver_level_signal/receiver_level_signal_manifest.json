@@ -1,0 +1,34 @@
+{
+    "notebook": "08C_receiver_level_signal_and_model_discrimination",
+    "oof_file": "reports\\nested_ridge_modeling\\oof_predictions.csv",
+    "dataset_file": "data\\features\\wr_analysis_dataset_core_common.parquet",
+    "dataset_sha256": "02fbd802522973f7c4d100da57cd680f7bbfde6346a0431a7aa1fe5e25807c5c",
+    "oof_rows": 2232,
+    "receivers": 54,
+    "outcomes": [
+        "game_mean_acceleration_raw_median",
+        "game_mean_speed_raw_median",
+        "game_p95_speed_raw_median",
+        "game_path_efficiency_median",
+        "game_peak_acceleration_raw_median",
+        "game_peak_speed_raw_median"
+    ],
+    "models": [
+        "BASELINE",
+        "COMBINED",
+        "TRACKING",
+        "TRADITIONAL"
+    ],
+    "outer_folds": [
+        1,
+        2,
+        3,
+        4,
+        5
+    ],
+    "bootstrap_replicates": 5000,
+    "bootstrap_seed": 2027,
+    "bootstrap_unit": "nfl_id",
+    "models_refitted": false,
+    "dataset_modified": false
+}
